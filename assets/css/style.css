@@ -1,0 +1,30 @@
+.crystal-image {
+  width: 200px;
+  height: 200px;
+}
+
+
+body {
+
+  background: url("../images/question.jpg");
+  
+} 
+
+
+.btn {
+    border-width:5px !important;
+}
+
+@media only screen and (max-width: 800px) { 
+  .crystal-image {
+    width: 140px;
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 375px) { 
+  .crystal-image {
+    width: 80px;
+    height: auto;
+  }
+}
