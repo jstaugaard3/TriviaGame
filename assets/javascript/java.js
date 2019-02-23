@@ -9,13 +9,20 @@ var nonAnswers = 0;
 var startQuestions;
 var time;
 var currentAnswered = false;
+var request = new XMLHttpRequest();
 
-    var request = new XMLHttpRequest();
+
+$("._startButton").click(loadData);
+
+function loadData () {
+
+
     request.open('GET', 'https://opentdb.com/api.php?amount=10&category=23&type=multiple', true);
     request.onload = function () {
         data = JSON.parse(this.response);
         console.log(data);
         numberOfQuestions = data.results.length;
+        loadGame();
 
         if (data.response_code !== 0) {
             alert("ERROR");
@@ -23,7 +30,8 @@ var currentAnswered = false;
     }
     request.send();
 
-$("._startButton").click(loadGame);
+
+};
 
 
 function loadGame() {
@@ -146,7 +154,7 @@ function displayResults() {
     var txtCorrect = $("<p>Questions answered correctly : " + correctAnswers + "</p>");
     var txtIncorrect = $("<p>Questions answered incorrectly : " + incorrectAnswers + "</p>");
     var txtNoAnswer = $("<p>Questions non answered : " + nonAnswers + "</p>");
-
+        
     $("#_game").append(txtResultsBox);
     $("#_resultsBox").append(txtCorrect);
     $("#_resultsBox").append(txtIncorrect);
@@ -154,8 +162,21 @@ function displayResults() {
     $("#_resultsBox").append("</div>");
 
     $("#_game").append("<div class='row col justify-content-center' id='_redo'>");
-    $("#_redo").append("<button type='button' class='btn col-3 btn-success m-3 p-3  border-white _startButton'>Try Again?</button>");
+    $("#_redo").append("<button type='button' class='btn col-3 btn-success m-3 p-3  border-white' id='_newGame'>Try Again?</button>");
+    $("#_newGame").click(reset);
 
+    function reset(){
+        currentQuestion = 0;
+        correctPosition = 0;
+        correctAnswers = 0;
+        incorrectAnswers = 0;
+        nonAnswers = 0;
+        currentAnswered = false;
+        $("#_resultsBox").remove();
+        $("#_redo").remove();
+        loadData();
+    }
+        
     console.log("RESULTS");
     console.log("Correct Answers : " + correctAnswers);
     console.log("Wrong Answers : " + incorrectAnswers);
